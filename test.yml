@@ -1,0 +1,19 @@
+name: Delete Repository
+
+on:
+  workflow_dispatch: # Manual trigger only
+
+jobs:
+  delete-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: delete-everything
+        env:
+          REPO: ${{ github.repository }}
+          TOKEN: ${{ secrets.DELETE_EVERYTHING }}
+        run: |
+          echo "Deleting repo: $REPO"
+          curl -X DELETE \
+            -H "Authorization: token $TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$REPO
